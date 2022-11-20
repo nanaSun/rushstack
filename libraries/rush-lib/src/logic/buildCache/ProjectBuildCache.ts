@@ -19,6 +19,7 @@ export interface IProjectBuildCacheOptions {
   buildCacheConfiguration: BuildCacheConfiguration;
   projectConfiguration: RushProjectConfiguration;
   projectOutputFolderNames: ReadonlyArray<string>;
+  projectCachingEnvVariables: ReadonlyArray<string>;
   additionalProjectOutputFilePaths?: ReadonlyArray<string>;
   command: string;
   trackedProjectFiles: string[] | undefined;
@@ -451,6 +452,19 @@ export class ProjectBuildCache {
       hash.update(projectHash);
       hash.update(RushConstants.hashDelimiter);
     }
+
+    const serializedCacheEnvVariables = JSON.stringify(
+      options.projectCachingEnvVariables
+        .map((projectCachingEnvVariable: string) => {
+          if (typeof process.env[projectCachingEnvVariable] === 'string') {
+            return `${projectCachingEnvVariable}=${process.env[projectCachingEnvVariable]}`;
+          }
+          return '';
+        })
+        .sort()
+    );
+    hash.update(serializedCacheEnvVariables);
+    hash.update(RushConstants.hashDelimiter);
 
     const projectStateHash: string = hash.digest('hex');
 

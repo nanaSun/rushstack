@@ -65,6 +65,7 @@ export interface IOperationSettings {
    * the build scripts to be compatible with caching.
    */
   disableBuildCacheForOperation?: boolean;
+  cachingEnvVariables?: string[];
 }
 
 interface IOldRushProjectJson {

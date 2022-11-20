@@ -441,12 +441,14 @@ export class ShellOperationRunner implements IOperationRunner {
             } else {
               const projectOutputFolderNames: ReadonlyArray<string> =
                 operationSettings.outputFolderNames || [];
+              const projectCachingEnvVariables = operationSettings.cachingEnvVariables || [];
               const additionalProjectOutputFilePaths: ReadonlyArray<string> = [
                 OperationStateFile.getFilenameRelativeToProjectRoot(this._phase)
               ];
               this._projectBuildCache = await ProjectBuildCache.tryGetProjectBuildCache({
                 projectConfiguration,
                 projectOutputFolderNames,
+                projectCachingEnvVariables,
                 additionalProjectOutputFilePaths,
                 buildCacheConfiguration: this._buildCacheConfiguration,
                 terminal,

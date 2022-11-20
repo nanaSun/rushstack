@@ -36,6 +36,7 @@ describe(ProjectBuildCache.name, () => {
         }
       } as unknown as BuildCacheConfiguration,
       projectOutputFolderNames: ['dist'],
+      projectCachingEnvVariables: ['cdn'],
       projectConfiguration: {
         project: {
           packageName: 'acme-wizard',
